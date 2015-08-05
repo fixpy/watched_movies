@@ -1,2 +1,1 @@
-web: virtualenv flask
-web: ./app.py $PORT
+web: python dealscraper/hello.py
