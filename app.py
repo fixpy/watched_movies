@@ -1,5 +1,5 @@
 #!flask/bin/python
-import sys
+import sys, os
 from flask import Flask, jsonify, render_template
 
 app = Flask(__name__, static_folder='client', static_url_path='', template_folder='client')
@@ -35,7 +35,7 @@ def get_task(task_id):
         abort(404)
     return jsonify({'task': task[0]})
 
-server_port = int(os.environ.get('PORT', 58058))
+server_port = int(os.environ.get('PORT', 5000))
 
 if __name__ == '__main__':
     app.run(debug=True, port=server_port)
