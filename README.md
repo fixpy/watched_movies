@@ -1,2 +1,2 @@
-# watched_movies
+# Watched Movies
 A library of watched movies
