@@ -2,6 +2,9 @@
   "name": "watched_movies",
   "version": "0.0.1",
   "description": "An app to list user's watched movies",
+  "engines": {
+    "node": "0.10.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/grunt-cli/bin/grunt build",
