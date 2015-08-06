@@ -1,0 +1,22 @@
+{
+  "name": "watched_movies",
+  "version": "0.0.1",
+  "homepage": "https://github.com/fixpy/watched_movies",
+  "authors": [
+    "Mehran Hatami <mehranhatamie@gmail.com>"
+  ],
+  "description": "An app to list user's watched movies",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "1.4.3",
+    "angular-animate": "1.4.3",
+    "angular-aria": "1.4.3",
+    "angular-material": "~0.10.0",
+    "angular-cookies": "1.4.3",
+    "angular-resource": "1.4.3",
+    "angular-route": "1.4.3",
+    "angular-sanitize": "1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "lodash": "~3.10.1"
+  }
+}
