@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "An app to list user's watched movies",
   "engines": {
-    "node": "0.10.x"
+    "node": "0.10.x",
+    "npm": "2.1.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
