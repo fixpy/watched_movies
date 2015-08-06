@@ -1,1 +1,1 @@
-web: python run.py
+web: ENV=production npm start
