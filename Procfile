@@ -1,2 +1,2 @@
 init: npm install
-web: ENV=production python run.py
+web: python run.py
