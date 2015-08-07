@@ -7,8 +7,7 @@ public_folder = '../client'
 # print env
 # if env == 'production':
 #     public_folder = '../public'
-
-app = Flask(__name__, static_folder=public_folder, static_url_path='')
+app = Flask('/', static_folder=public_folder, static_url_path='')
 app.config.from_object('config')
 db = SQLAlchemy(app)
 

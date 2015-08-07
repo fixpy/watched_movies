@@ -23,8 +23,8 @@ def index():
     return app.send_static_file('index.html')
 
 @app.route('/bower_components/<path:path>')
-def bower_(path):
-    return send_from_directory('../bower_components', path)
+def bower_files(path):
+    return send_from_directory('bower_components', path)
 
 @app.route('/metacritic/mashape_key')
 def api_key():
