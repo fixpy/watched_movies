@@ -1,6 +1,8 @@
 import json
 from flask import jsonify, render_template, send_from_directory
 from app import app
+from app import db, models
+
 tasks = [
     {
         'id': 1,
@@ -34,9 +36,10 @@ def api_key():
 def get_tasks():
     return jsonify({'tasks': tasks})
 
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
-def get_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    if len(task) == 0:
+@app.route('/api/v1.0/movies/<int:movie_id>', methods=['GET'])
+def get_task(movie_id):
+    movie = models.Movie.query.get(movie_id)
+    # movie = [movie for movie in movies if movie['id'] == movie_id]
+    if movie is None:
         abort(404)
-    return jsonify({'task': task[0]})
+    return jsonify({'movie': movie})
