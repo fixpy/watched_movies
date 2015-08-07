@@ -1,7 +1,9 @@
-import json
+import json, os
 from flask import jsonify, render_template, send_from_directory
 from app import app
 from app import db, models
+
+env = os.environ.get('ENV', 'development')
 
 tasks = [
     {
@@ -28,9 +30,10 @@ def bower_files(path):
 
 @app.route('/metacritic/mashape_key')
 def api_key():
-    with open('secrets.json') as secrets_json:
-        secrets = json.load(secrets_json)
-        return secrets['mashape']['key']
+    if env == 'development':
+        return 'J6nENosAcVmshJor9sHzgZK57eytp1b7L1OjsnGyeGCxTUJmxt'
+    else:
+        return 'YBo0ebygCLmsh4IWOFt0PD3VO3VPp1l8LwajsnZUYQGT74zTFK'
 
 @app.route('/api/v1.0/movies', methods=['GET'])
 def get_tasks():
