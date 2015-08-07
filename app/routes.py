@@ -26,15 +26,17 @@ def index():
 
 @app.route('/bower_components/<path:path>')
 def bower_files(path):
-    return send_from_directory('bower_components', path)
+    return send_from_directory('../bower_components', path)
 
 @app.route('/styles/<path:path>')
 def styles_folder(path):
-    return send_from_directory('client/styles', path)
+    return app.send_static_file('styles/' + path)
+    # return send_from_directory('../client/styles', path)
 
 @app.route('/views/<path:path>')
 def views_folder(path):
-    return send_from_directory('client/views', path)
+    return app.send_static_file('views/' + path)
+    # return send_from_directory('../client/views', path)
 
 @app.route('/metacritic/mashape_key')
 def api_key():
