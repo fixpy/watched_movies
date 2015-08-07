@@ -28,6 +28,14 @@ def index():
 def bower_files(path):
     return send_from_directory('bower_components', path)
 
+@app.route('/styles/<path:path>')
+def styles_folder(path):
+    return send_from_directory('client/styles', path)
+
+@app.route('/views/<path:path>')
+def views_folder(path):
+    return send_from_directory('client/views', path)
+
 @app.route('/metacritic/mashape_key')
 def api_key():
     if env == 'development':
