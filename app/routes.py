@@ -6,40 +6,27 @@ from app import db, models
 
 env = os.environ.get('ENV', 'development')
 
-tasks = [
-    {
-        'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web',
-        'done': False
-    }
-]
-
-
-@app.route('/')
 def index():
     return app.send_static_file('index.html')
 
 
-@app.route('/bower_components/<path:path>')
-def bower_files(path):
-    return send_from_directory('../bower_components', path)
+# @app.route('/bower_components/<path:path>')
+# def bower_files(path):
+#     # return app.send_static_file('../bower_components/' + path)
+#     print('>>>>>>')
+#     print(path)
+#     print('<<<<<<')
+#     return send_from_directory('bower_components', path)
 
 
-@app.route('/styles/<path:path>')
-def styles_folder(path):
-    return app.send_static_file('styles/' + path)
+# @app.route('/styles/<path:path>')
+# def styles_folder(path):
+#     return app.send_static_file('styles/' + path)
 
 
-@app.route('/views/<path:path>')
-def views_folder(path):
-    return app.send_static_file('views/' + path)
+# @app.route('/views/<path:path>')
+# def views_folder(path):
+#     return app.send_static_file('views/' + path)
 
 
 @app.route('/metacritic/mashape_key')

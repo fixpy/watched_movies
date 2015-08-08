@@ -1,9 +1,12 @@
 #!flask/bin/python
 import os
+import mimetypes
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 env = os.environ.get('ENV', 'development')
 public_folder = '../client'
+mimetypes.add_type('image/svg+xml', '.svg')
+mimetypes.add_type('text/html ', '.html')
 # print env
 # if env == 'production':
 #     public_folder = '../public'
