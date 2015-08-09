@@ -3,10 +3,15 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
 
+  var dist = '../public',
+    cssmin = {};
+
+  cssmin[dist + '/styles/app.css'] = ['styles/app.css'];
+
   grunt.initConfig({
     wiredep: {
       client: {
-        src: ['client/index.html'],
+        src: ['index.html'],
         ignorePath: /\.\.\//
       }
     },
@@ -16,8 +21,8 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: 'client',
-          dest: 'public',
+          cwd: '/',
+          dest: dist,
           src: [
             '*.{ico,png,txt}',
             '*.html',
@@ -27,16 +32,16 @@ module.exports = function (grunt) {
       },
       styles: {
         expand: true,
-        cwd: 'client/styles',
-        dest: 'public/styles/',
+        cwd: 'styles',
+        dest: dist + '/styles/',
         src: '{,*/}*.css'
       }
     },
 
     useminPrepare: {
-      html: 'client/index.html',
+      html: 'index.html',
       options: {
-        dest: 'public',
+        dest: dist,
         flow: {
           html: {
             steps: {
@@ -52,30 +57,26 @@ module.exports = function (grunt) {
     filerev: {
       dist: {
         src: [
-          'public/scripts/{,*/}*.js',
-          'public/styles/{,*/}*.css'
+          dist + '/scripts/{,*/}*.js',
+          dist + '/styles/{,*/}*.css'
         ]
       }
     },
 
     usemin: {
-      html: ['public/{,*/}*.html'],
-      css: ['public/styles/{,*/}*.css'],
+      html: [dist + '/{,*/}*.html'],
+      css: [dist + '/styles/{,*/}*.css'],
       options: {
         assetsDirs: [
-          'public',
-          'public/styles'
+          dist,
+          dist + '/styles'
         ]
       }
     },
 
     cssmin: {
       dist: {
-        files: [{
-          'public/styles/app.css': [
-            'client/styles/app.css'
-          ]
-        }]
+        files: [cssmin]
       }
     },
 
@@ -83,9 +84,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'client/styles/svg',
+          cwd: 'styles/svg',
           src: '{,*/}*.svg',
-          dest: 'public/styles/svg'
+          dest: dist + '/styles/svg'
         }]
       }
     },
@@ -101,9 +102,9 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: 'public',
+          cwd: dist,
           src: ['*.html', 'views/{,*/}*.html'],
-          dest: 'public'
+          dest: dist
         }]
       }
     },
@@ -122,8 +123,8 @@ module.exports = function (grunt) {
           dot: true,
           src: [
             '.tmp',
-            'public/{,*/}*',
-            '!public/.git{,*/}*'
+            dist + '/{,*/}*',
+            '!' + dist + '/.git{,*/}*'
           ]
         }]
       }

@@ -10,9 +10,9 @@
    */
   angular
     .module('watchedMovies')
-    .controller('IndexCtrl', ['$scope', '$rootScope', '$sce', '$q', '$stateParams', 'MetacriticAPIService', '$mdDialog', '$mdBottomSheet', '$mdSidenav', IndexCtrl]);
+    .controller('IndexCtrl', ['$scope', '$rootScope', '$sce', '$q', '$stateParams', 'MetacriticAPIService', '$mdDialog', '$mdBottomSheet', '$mdSidenav', 'MovieService', IndexCtrl]);
 
-  function IndexCtrl($scope, $rootScope, $sce, $q, $stateParams, MetacriticAPIService, $mdDialog, $mdBottomSheet, $mdSidenav) {
+  function IndexCtrl($scope, $rootScope, $sce, $q, $stateParams, MetacriticAPIService, $mdDialog, $mdBottomSheet, $mdSidenav, MovieService) {
     window.ul = this;
 
     this.$stateParams = $stateParams;
@@ -23,6 +23,7 @@
     this.$q = $q;
     this.$sce = $sce;
     this.MetacriticAPIService = MetacriticAPIService;
+    this.MovieService = MovieService;
 
     this.movies = [];
 
@@ -44,6 +45,11 @@
       .catch(function (err) {
         console.error('An error happened while loading movies:', err);
       });
+  };
+
+
+  IndexCtrl.prototype.getIcon = function (movie) {
+    return this.MovieService.getIcon(movie);
   };
 
   IndexCtrl.prototype.toggleList = function () {

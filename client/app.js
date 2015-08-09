@@ -27,7 +27,7 @@
           newReleases: 'https://metacritic-2.p.mashape.com/movie-list/new-releases'
         }
       },
-      api:{
+      api: {
         movies: '/api/v1.0/movies'
       }
     })
@@ -41,17 +41,29 @@
             url: '/movies',
             templateUrl: 'views/index.html'
           });
-          // .state('movies.search', {
-          //   url: '/:name',
-          //   templateUrl: 'views/index.html'
-          // })
-          // .state('company', {
-          //   url: '/company/:company',
-          //   templateUrl: 'views/orders.html'
-          // });
+        // .state('movies.search', {
+        //   url: '/:name',
+        //   templateUrl: 'views/index.html'
+        // })
+        // .state('company', {
+        //   url: '/company/:company',
+        //   templateUrl: 'views/orders.html'
+        // });
+        var allGenres = ['All', 'Adventure', 'Drama', 'Fantasy', 'Comedy', 'Animation', 'Family', 'Action',
+          'Sci-Fi', 'Thriller', 'Sport', 'Crime',
+          'Music', 'History', 'Horror',
+          'Documentary', 'Romance'
+        ];
+
+        function defineGenresIcons(iconProvider) {
+          _.each(allGenres, function (genre) {
+            iconProvider = iconProvider.icon(genre, './styles/svg/genres/' + genre + '.svg');
+          });
+          return iconProvider;
+        }
 
         // couple of sample svg icons borrowed from google
-        $mdIconProvider
+        var iconProvider = $mdIconProvider
           .defaultIconSet("./styles/svg/avatars.svg", 128)
           .icon("menu", "./styles/svg/menu.svg", 24)
           .icon("share", "./styles/svg/share.svg", 24)
@@ -60,9 +72,14 @@
           .icon("twitter", "./styles/svg/twitter.svg", 512)
           .icon("phone", "./styles/svg/phone.svg", 512);
 
+        defineGenresIcons(iconProvider);
+
         $mdThemingProvider.theme('default')
-          .primaryPalette('brown')
-          .accentPalette('red');
+          .primaryPalette('light-blue')
+          .accentPalette('blue');
+        /*
+        red, pink, purple, deep-purple, indigo, blue, light-blue, cyan, teal, green, light-green, lime, yellow, amber, orange, deep-orange, brown, grey, blue-grey
+        */
       }
     ]);
 }());

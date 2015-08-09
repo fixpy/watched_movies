@@ -38,7 +38,7 @@
       <md-list>
         <md-list-item ng-repeat="it in ul.movies">
           <md-button ng-click="ul.selectMovie(it)" aria-label="{{it.name}}" ng-class="{'selected' : it === ul.selected }">
-            <md-icon md-svg-icon="google_plus" class="avatar"></md-icon>
+            <md-icon md-svg-src="{{ul.getIcon(it)}}"></md-icon>
             <a href="#/movie/{{it.name}}" target="_self" ng-bind="it.name"></a>
           </md-button>
         </md-list-item>
