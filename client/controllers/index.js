@@ -10,20 +10,24 @@
    */
   angular
     .module('watchedMovies')
-    .controller('IndexCtrl', ['$scope', '$rootScope', '$q', '$stateParams', 'MetacriticAPIService', '$mdDialog', '$mdBottomSheet', '$mdSidenav', IndexCtrl]);
+    .controller('IndexCtrl', ['$scope', '$rootScope', '$sce', '$q', '$stateParams', 'MetacriticAPIService', '$mdDialog', '$mdBottomSheet', '$mdSidenav', IndexCtrl]);
 
-  function IndexCtrl($scope, $rootScope, $q, $stateParams, MetacriticAPIService, $mdDialog, $mdBottomSheet, $mdSidenav) {
+  function IndexCtrl($scope, $rootScope, $sce, $q, $stateParams, MetacriticAPIService, $mdDialog, $mdBottomSheet, $mdSidenav) {
+    window.ul = this;
+
     this.$stateParams = $stateParams;
     this.$mdDialog = $mdDialog;
     this.$mdBottomSheet = $mdBottomSheet;
     this.$mdSidenav = $mdSidenav;
     this.$rootScope = $rootScope;
     this.$q = $q;
+    this.$sce = $sce;
     this.MetacriticAPIService = MetacriticAPIService;
 
     this.movies = [];
 
     this.selected = null;
+    this.selectedUrl = null;
 
     this.load();
   }
@@ -77,6 +81,6 @@
     var that = this;
 
     that.selected = movie;
-
+    this.selectedUrl = this.$sce.trustAsResourceUrl(that.selected.url);
   };
 }());

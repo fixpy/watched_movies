@@ -1,6 +1,6 @@
 #!flask/bin/python
-
 from app import db
+
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,3 +10,12 @@ class Movie(db.Model):
 
     def __repr__(self):
         return '<Movie %r>' % (self.name)
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'director': self.director,
+            'year': self.year
+        }

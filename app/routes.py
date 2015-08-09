@@ -1,4 +1,5 @@
-import json, os
+import json
+import os
 from flask import jsonify, render_template, send_from_directory
 from app import app
 from app import db, models
@@ -20,23 +21,26 @@ tasks = [
     }
 ]
 
+
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
+
 
 @app.route('/bower_components/<path:path>')
 def bower_files(path):
     return send_from_directory('../bower_components', path)
 
+
 @app.route('/styles/<path:path>')
 def styles_folder(path):
     return app.send_static_file('styles/' + path)
-    # return send_from_directory('../client/styles', path)
+
 
 @app.route('/views/<path:path>')
 def views_folder(path):
     return app.send_static_file('views/' + path)
-    # return send_from_directory('../client/views', path)
+
 
 @app.route('/metacritic/mashape_key')
 def api_key():
@@ -45,14 +49,15 @@ def api_key():
     else:
         return 'YBo0ebygCLmsh4IWOFt0PD3VO3VPp1l8LwajsnZUYQGT74zTFK'
 
+
 @app.route('/api/v1.0/movies', methods=['GET'])
-def get_tasks():
-    return jsonify({'tasks': tasks})
+def get_movies():
+    return json.dumps([movie.serialize for movie in models.Movie.query.all()])
+
 
 @app.route('/api/v1.0/movies/<int:movie_id>', methods=['GET'])
 def get_task(movie_id):
     movie = models.Movie.query.get(movie_id)
-    # movie = [movie for movie in movies if movie['id'] == movie_id]
     if movie is None:
         abort(404)
-    return jsonify({'movie': movie})
+    return jsonify(movie.serialize)

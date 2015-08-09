@@ -55,7 +55,14 @@
     </md-toolbar>
 
     <md-content flex id="content">
-      <div ui-view></div>
+      <div ng-if="ul.selected">
+      <h1>{{ul.selected.name}}</h1>
+      <h2>Rating: {{ul.selected.rating}}, Score: {{ul.selected.score}}</h2>
+      <h3>{{ul.selected.genre}}</h3>
+      <p>Cast: {{ul.selected.cast}}</p>
+      <p><strong>Summary:</strong><br />{{ul.selected.summary}}</p>
+      <iframe  ng-src="{{ul.selectedUrl}}" style="width:100%;height:500px;"></iframe>
+      </div>
     </md-content>
 
     <md-button class="md-accent md-fab md-fab-bottom-right" ng-click="ul.showAddDialog($event)">
