@@ -1,5 +1,6 @@
 pip install flask
 pip install flask-login
+pip install flask-bootstrap
 pip install flask-openid
 pip install flask-mail
 pip install flask-sqlalchemy
@@ -10,3 +11,4 @@ pip install flask-babel
 pip install guess_language
 pip install flipflop
 pip install coverage
+pip install werkzeug

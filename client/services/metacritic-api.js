@@ -2,15 +2,16 @@
   'use strict';
   /**
    * @ngdoc service
-   * @name watchedMovies.CompanyService
+   * @name watchedMovies.MetacriticAPIService
    * @description
-   * # CompanyService
+   * # MetacriticAPIService
    * Factory in the watchedMovies module.
    */
   angular.module('watchedMovies')
     .factory('MetacriticAPIService', ['$http', '$q', 'options', MetacriticAPIService]);
 
   function MetacriticAPIService($http, $q, options) {
+    window.$http = $http;
     var key,
       factory = {
         validFindKeys: ['max_pages', 'retry', 'title', 'year_from', 'year_to'],

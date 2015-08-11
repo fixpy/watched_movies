@@ -28,6 +28,7 @@
         }
       },
       api: {
+        user: '/user',
         movies: '/api/v1.0/movies'
       }
     })
@@ -81,5 +82,9 @@
         red, pink, purple, deep-purple, indigo, blue, light-blue, cyan, teal, green, light-green, lime, yellow, amber, orange, deep-orange, brown, grey, blue-grey
         */
       }
-    ]);
+    ])
+    .config(function ($httpProvider) {
+      $httpProvider.interceptors.push('AuthInterceptor');
+      $httpProvider.interceptors.push('HttpInterceptor');
+    });
 }());
