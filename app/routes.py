@@ -1,6 +1,6 @@
 import json
 import os
-from flask import jsonify, render_template, send_from_directory
+from flask import jsonify, render_template, send_from_directory, request
 from app import app
 from app import db, models
 from flask.ext.login import login_required, current_user
@@ -18,9 +18,6 @@ def index():
 @login_required
 def user():
     return jsonify(current_user.serialize)
-    # if current_user.is_authenticated():
-    #     return jsonify(current_user.serialize)
-    # return jsonify({'isAuthenticated' : False})
 
 
 @app.route('/metacritic/mashape_key')
@@ -35,6 +32,13 @@ def api_key():
 def get_movies():
     return json.dumps([movie.serialize for movie in models.Movie.query.all()])
 
+@app.route('/api/v1.0/movies', methods=['POST'])
+def post_movies():
+    movie = models.Movie()
+    movie.__dict__.update(request.json)
+    db.session.add(movie)
+    db.session.commit()
+    return jsonify(movie.serialize)
 
 @app.route('/api/v1.0/movies/<int:movie_id>', methods=['GET'])
 def get_task(movie_id):

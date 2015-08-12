@@ -10,13 +10,23 @@
    */
   angular
     .module('watchedMovies')
-    .controller('AddWatchedMovieCtrl', ['$rootScope', '$mdDialog', AddWatchedMovieCtrl]);
+    .controller('AddWatchedMovieCtrl', ['$rootScope', '$mdDialog', 'MovieService', AddWatchedMovieCtrl]);
 
-  function AddWatchedMovieCtrl($rootScope, $mdDialog) {
+  function AddWatchedMovieCtrl($rootScope, $mdDialog, MovieService) {
     this.$rootScope = $rootScope;
     this.$mdDialog = $mdDialog;
-    this.rates = [1, 2, 3, 4, 5];
+
+    this.load(MovieService.selected());
   }
+
+  AddWatchedMovieCtrl.prototype.load = function (movie) {
+    if(movie && _.has(movie, 'api_review')){
+      this.movieReview = {
+        review: movie['api_review'],
+        rate: movie['api_rate']
+      };
+    }
+  };
 
   AddWatchedMovieCtrl.prototype.hide = function () {
     this.$mdDialog.hide();

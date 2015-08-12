@@ -41,9 +41,9 @@
         return response || $q.when(response);
       },
       responseError: function (response) {
-        if (!(--active)) {
-          $rootScope.$broadcast('loader:hide');
-        }
+        active--;
+        done++;
+        $rootScope.$broadcast('loader:update', info());
         return $q.reject(response);
       }
     };

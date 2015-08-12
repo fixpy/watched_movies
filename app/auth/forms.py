@@ -19,6 +19,8 @@ class RegistrationForm(Form):
     'Usernames must have only letters, '
     'numbers, dots or underscores')])
 
+    displayName = StringField('Display Name', validators=[Required()])
+
     password = PasswordField('Password', validators=[
     Required(), EqualTo('password2', message='Passwords must match.')])
 

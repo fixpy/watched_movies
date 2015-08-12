@@ -11,14 +11,15 @@
     </md-toolbar>
     <md-dialog-content>
       <div>
-        <md-input-container>
-          <label>Comment</label>
-          <input type="text" ng-model="vm.movieReview.comment" />
+        <md-input-container flex>
+          <label>You review on this</label>
+          <textarea ng-model="vm.movieReview.review" columns="1" md-maxlength="150"></textarea>
         </md-input-container>
 
         <md-select placeholder="Rate" ng-model="vm.movieReview.rate">
-          <md-option ng-repeat="rate in vm.rates" value="{{rate}}">{{rate}}</md-option>
+          <md-option ng-repeat="rate in [1,2,3,4,5]" value="{{rate}}">{{rate}}</md-option>
         </md-select>
+        <star-rating ng-model="vm.movieReview.rate" readonly="false"></star-rating>
       </div>
     </md-dialog-content>
     <div class="md-actions" layout="row">

@@ -1,3 +1,13 @@
-<div>
-  <iframe ng-show="ul.selected" ng-src="{{ul.selectedUrl}}" style="width:100%;height:500px;"></iframe>
+<div layout="row" ng-controller="MovieCtrl as ul" flex>
+  <md-progress-circular ng-if="ul.loading" class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+  <div ng-if="ul.movie" layout="column" flex>
+    <h1>{{ul.movie.name}}</h1>
+    <h2>Rating: {{ul.movie.rating}}, Score: {{ul.movie.score}}</h2>
+    <h3>{{ul.movie.genre}}</h3>
+    <p>Cast: {{ul.movie.cast}}</p>
+    <p>
+      <strong>Summary:</strong>
+      <br />{{ul.movie.summary}}</p>
+    <!-- <iframe ng-src="{{ul.movieUrl}}" style="width:100%;height:500px;"></iframe> -->
+  </div>
 </div>

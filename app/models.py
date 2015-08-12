@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
 from . import login_manager
 
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -31,15 +32,27 @@ class User(UserMixin, db.Model):
             'email': self.email
         }
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    api_collection = db.Column(db.String(30), index=False, unique=True)
+    api_review = db.Column(db.String(300), index=False, unique=False)
+    api_rate = db.Column(db.String(300), index=False, unique=False)
     name = db.Column(db.String(64), index=True, unique=True)
-    director = db.Column(db.String(64), index=False, unique=False)
-    year = db.Column(db.Integer, index=False, unique=False)
+    url = db.Column(db.String(500), index=False, unique=False)
+    rlsdate = db.Column(db.String(10), index=False, unique=False)
+    score = db.Column(db.String(10), index=False, unique=False)
+    summary = db.Column(db.String(300), index=False, unique=False)
+    rating = db.Column(db.String(10), index=False, unique=False)
+    cast = db.Column(db.String(300), index=False, unique=False)
+    genre = db.Column(db.String(64), index=False, unique=False)
+    avguserscore = db.Column(db.String(10), index=False, unique=False)
+    runtime = db.Column(db.String(10), index=False, unique=False)
 
     def __repr__(self):
         return '<Movie %r>' % (self.name)
@@ -48,7 +61,15 @@ class Movie(db.Model):
     def serialize(self):
         return {
             'id': self.id,
+            'api_collection': self.api_collection,
+            'api_review': self.api_review,
+            'api_rate': self.api_rate,
             'name': self.name,
-            'director': self.director,
-            'year': self.year
+            'rlsdate': self.rlsdate,
+            'summary': self.summary,
+            'rating': self.rating,
+            'cast': self.cast,
+            'genre': self.genre,
+            'avguserscore': self.avguserscore,
+            'runtime': self.runtime
         }

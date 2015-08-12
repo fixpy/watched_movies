@@ -1,11 +1,10 @@
 html, body {
   font-family: 'Roboto', sans-serif;
-  font-size:14px;
-  height:100%;
+  font-size: 14px;
+  height: 100%;
   margin: 0px;
   padding: 0px;
 }
-
 /* Toolbar area */
 
 .menu {
@@ -15,11 +14,9 @@ html, body {
   margin: 16px;
   width: 36px;
 }
-
 md-toolbar h1 {
   margin: auto;
 }
-
 /* Sidenav area */
 
 md-list .md-button {
@@ -28,27 +25,22 @@ md-list .md-button {
   text-align: left;
   width: 100%;
 }
-  md-list .md-button.selected {
-    color: #03a9f4;
-  }
-
-  md-sidenav  md-list {
-    padding: 0px 0px 8px 0px;
-  }
-
-
+md-list .md-button.selected {
+  color: #03a9f4;
+}
+md-sidenav md-list {
+  padding: 0px 0px 8px 0px;
+}
 /* Primary content area */
 
 #content {
   overflow: hidden;
 }
-
-#content  {
-  padding-left: 40px;
-  padding-right: 40px;
+#content {
+  padding-left: 10px;
+  padding-right: 10px;
   padding-top: 5px;
 }
-
 #content .md-button.contact {
   background-color: transparent;
   border: none;
@@ -59,49 +51,41 @@ md-list .md-button {
   top: 10px;
   right: 40px;
 }
-
 #content md-icon.avatar {
   margin-top: 10px;
 }
-
 #content .md-button.contact > md-icon {
-  fill:black;
-  width:36px;
-  height:36px;
+  fill: black;
+  width: 36px;
+  height: 36px;
 }
-
 md-button.menuBtn > md-icon {
-  fill:white;
-  width:24px;
-  height:24px;
+  fill: white;
+  width: 24px;
+  height: 24px;
 }
-
 #content .md-button.contact:active > md-icon {
   background-color: #dadada;
   border-radius: 75%;
-  padding:4px;
+  padding: 4px;
   transition: all 100ms ease-out 30ms;
 }
-
 #content img {
   display: block;
   height: auto;
   max-width: 500px;
 }
-
 /* Utils */
 
 .content-wrapper {
   position: relative;
 }
-
 /* Typography support coming in 0.8.0 */
 
 md-toolbar h1 {
   font-size: 1.250em;
   font-weight: 400;
 }
-
 .avatar {
   position: relative;
   width: 128px;
@@ -112,26 +96,49 @@ md-toolbar h1 {
   overflow: hidden;
   margin: 0px;
   vertical-align: middle;
-  zoom:0.70;
+  zoom: 0.70;
   transform: translateZ(0);
   -webkit-transform: scale(0.70);
-  -moz-transform:scale(0.70);
+  -moz-transform: scale(0.70);
 }
-
-
-md-bottom-sheet  md-icon {
-  margin-right:20px;
+md-bottom-sheet md-icon {
+  margin-right: 20px;
 }
-
 span.name {
   font-weight: bold;
-  font-size:1.1em;
-  padding-left:5px;
+  font-size: 1.1em;
+  padding-left: 5px;
+}
+.loader {
+  z-index: 10001;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}
+.md-avatar {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-.loader {
-  z-index:10001;
-  position:fixed;
-  top:0px;
-  width:100%;
+#content md-fab-toolbar .md-fab-toolbar-wrapper{
+  max-height: 70px !important;
+}
+
+#content iframe{
+  padding: 0px;
+  margin: 0px;
+  border-style: none;
+  border-width: 0px;
+}
+
+.user-toolbar .md-avatar{
+    -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  top: -17px;
+  left: -14px;
 }

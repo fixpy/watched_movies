@@ -29,19 +29,26 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-  <loader></loader>
 
+  <loader></loader>
   <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
 
     <md-toolbar layout="row" class="md-whiteframe-z1">
-      <h1>Movies</h1>
+      <!-- <h1>Movies</h1> -->
+      <user-avatar></user-avatar>
     </md-toolbar>
     <md-content flex>
+      <div ng-show="ul.watchedListIsEmpty()">
+        <p>You watched list is empty!</p>
+      </div>
+      <div layout="row" ng-if="!ul.movies" layout-sm="column" layout-align="space-around">
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+      </div>
       <md-list>
         <md-list-item ng-repeat="it in ul.movies">
-          <md-button ng-click="ul.selectMovie(it)" aria-label="{{it.name}}" ng-class="{'selected' : it === ul.selected }">
+          <md-button aria-label="{{it.name}}" ng-class="{'selected' : it === ul.selected }">
             <md-icon md-svg-src="{{ul.getIcon(it)}}"></md-icon>
-            <a href="#/movie/{{it.name}}" target="_self" ng-bind="it.name"></a>
+            <a href="#/{{ul.collection}}/{{it.name}}" target="_self" ng-bind="it.name"></a>
           </md-button>
         </md-list-item>
       </md-list>
@@ -57,21 +64,46 @@
     </md-toolbar>
 
     <md-content flex id="content">
-      <div ng-if="ul.selected">
-      <h1>{{ul.selected.name}}</h1>
-      <h2>Rating: {{ul.selected.rating}}, Score: {{ul.selected.score}}</h2>
-      <h3>{{ul.selected.genre}}</h3>
-      <p>Cast: {{ul.selected.cast}}</p>
-      <p><strong>Summary:</strong><br />{{ul.selected.summary}}</p>
-      <iframe  ng-src="{{ul.selectedUrl}}" style="width:100%;height:500px;"></iframe>
+      <div class="user-toolbar">
+        <md-fab-toolbar md-open="false" count="3" ng-class="md-right">
+          <md-fab-trigger class="align-with-text">
+            <md-button aria-label="menu" class="md-fab md-primary">
+              <md-icon>
+                <gravatar-image data-gravatar-email="ul.user.email" data-gravatar-size="56" data-gravatar-rating="pg" data-gravatar-default="identicon" data-gravatar-secure="true" data-gravatar-css-class="md-avatar"></gravatar-image>
+              </md-icon>
+            </md-button>
+          </md-fab-trigger>
+          <md-toolbar>
+            <md-fab-actions class="md-toolbar-tools">
+              <md-button ng-href="#/watched/*" target="_self" aria-label="My watched videos" class="md-icon-button">
+                <md-icon md-svg-src="styles/svg/watched.svg"></md-icon>
+                <md-tooltip md-direction="middle">My watched videos</md-tooltip>
+              </md-button>
+              <md-button ng-href="#/newReleases/*" target="_self" aria-label="New releases" class="md-icon-button">
+                <md-icon md-svg-src="styles/svg/new-releases.svg"></md-icon>
+                <md-tooltip md-direction="middle">New releases</md-tooltip>
+              </md-button>
+              <md-button ng-href="#/comingSoon/*" target="_self" aria-label="Comming soon" class="md-icon-button">
+                <md-icon md-svg-src="styles/svg/comming-soon.svg"></md-icon>
+                <md-tooltip md-direction="middle">Comming soon</md-tooltip>
+              </md-button>
+              <md-button ng-href="#/lastYear/*" target="_self" aria-label="Last year" class="md-icon-button">
+                <md-icon md-svg-src="styles/svg/last-year.svg"></md-icon>
+                <md-tooltip md-direction="middle">Last year</md-tooltip>
+              </md-button>
+              <md-button ng-href="#/lastDecade/*" target="_self" aria-label="Last decade" class="md-icon-button">
+                <md-icon md-svg-src="styles/svg/last-decade.svg"></md-icon>
+                <md-tooltip md-direction="middle">Last decade</md-tooltip>
+              </md-button>
+            </md-fab-actions>
+          </md-toolbar>
+        </md-fab-toolbar>
       </div>
+      <div ui-view layout="row" flex></div>
     </md-content>
 
     <md-button class="md-accent md-fab md-fab-bottom-right" ng-click="ul.showAddDialog($event)">
       ADD
-    </md-button>
-    <md-button class="md-accent md-fab md-fab-top-right">
-      <a ng-href="#/">ALL</a>
     </md-button>
   </div>
 
@@ -88,12 +120,14 @@
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="bower_components/lodash/lodash.js"></script>
+  <script src="bower_components/angularjs-gravatardirective/dist/angularjs-gravatardirective.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
 
   <!-- build:js({.tmp,client}) scripts/scripts.js -->
   <script src="app.js"></script>
   <script src="controllers/index.js"></script>
+  <script src="controllers/movie.js"></script>
   <script src="controllers/add-watched-movie.js"></script>
   <script src="directives/loader.js"></script>
   <script src="services/http-interceptor.js"></script>

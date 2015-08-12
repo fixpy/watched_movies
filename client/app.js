@@ -9,6 +9,25 @@
    *
    * Main module of the application.
    */
+  var options = {
+    metacritic: {
+      key: '/metacritic/mashape_key',
+      movies: {
+        serach: 'https://metacritic-2.p.mashape.com/search/movie',
+        comingSoon: 'https://metacritic-2.p.mashape.com/movie-list/coming-soon',
+        newReleases: 'https://metacritic-2.p.mashape.com/movie-list/new-releases'
+      }
+    },
+    api: {
+      user: '/user',
+      movies: '/api/v1.0/movies'
+    },
+    genres: [
+      'All', 'Adventure', 'Drama', 'Fantasy', 'Comedy', 'Animation',
+      'Family', 'Action', 'Sci-Fi', 'Thriller', 'Sport', 'Crime',
+      'Music', 'History', 'Horror', 'Documentary', 'Romance'
+    ]
+  };
   angular
     .module('watchedMovies', [
       'ngMaterial',
@@ -17,47 +36,22 @@
       'ngRoute',
       'ngSanitize',
       'ui.router',
+      'angularjs-gravatardirective'
     ])
-    .value('options', {
-      metacritic: {
-        key: '/metacritic/mashape_key',
-        movies: {
-          serach: 'https://metacritic-2.p.mashape.com/search/movie',
-          comingSoon: 'https://metacritic-2.p.mashape.com/movie-list/coming-soon',
-          newReleases: 'https://metacritic-2.p.mashape.com/movie-list/new-releases'
-        }
-      },
-      api: {
-        user: '/user',
-        movies: '/api/v1.0/movies'
-      }
-    })
+    .value('options', options)
     .config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', '$mdIconProvider',
       function ($stateProvider, $urlRouterProvider, $mdThemingProvider, $mdIconProvider) {
         $urlRouterProvider
           .otherwise('/');
 
         $stateProvider
-          .state('movies', {
-            url: '/movies',
-            templateUrl: 'views/index.html'
+          .state('watched', {
+            url: '/:collection/:name',
+            templateUrl: 'views/movie.html'
           });
-        // .state('movies.search', {
-        //   url: '/:name',
-        //   templateUrl: 'views/index.html'
-        // })
-        // .state('company', {
-        //   url: '/company/:company',
-        //   templateUrl: 'views/orders.html'
-        // });
-        var allGenres = ['All', 'Adventure', 'Drama', 'Fantasy', 'Comedy', 'Animation', 'Family', 'Action',
-          'Sci-Fi', 'Thriller', 'Sport', 'Crime',
-          'Music', 'History', 'Horror',
-          'Documentary', 'Romance'
-        ];
 
         function defineGenresIcons(iconProvider) {
-          _.each(allGenres, function (genre) {
+          _.each(options.genres, function (genre) {
             iconProvider = iconProvider.icon(genre, './styles/svg/genres/' + genre + '.svg');
           });
           return iconProvider;
@@ -75,12 +69,13 @@
 
         defineGenresIcons(iconProvider);
 
+        /*
+         * Supported palettes:
+         *   red, pink, purple, deep-purple, indigo, blue, light-blue, cyan, teal, green, light-green, lime, yellow, amber, orange, deep-orange, brown, grey, blue-grey
+         */
         $mdThemingProvider.theme('default')
           .primaryPalette('light-blue')
           .accentPalette('blue');
-        /*
-        red, pink, purple, deep-purple, indigo, blue, light-blue, cyan, teal, green, light-green, lime, yellow, amber, orange, deep-orange, brown, grey, blue-grey
-        */
       }
     ])
     .config(function ($httpProvider) {
