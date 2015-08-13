@@ -18,6 +18,6 @@
     "angular-sanitize": "1.4.3",
     "angular-ui-router": "~0.2.15",
     "lodash": "~3.10.1",
-    "star-rating": "*"
+    "angularjs-gravatardirective": "mehranhatami/angularjs-gravatardirective#~1.4.3"
   }
 }
