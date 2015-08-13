@@ -40,6 +40,7 @@ def load_user(user_id):
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    api_owner = db.Column(db.String(30), index=False, unique=False)
     api_collection = db.Column(db.String(30), index=False, unique=True)
     api_review = db.Column(db.String(300), index=False, unique=False)
     api_rate = db.Column(db.String(300), index=False, unique=False)
@@ -62,6 +63,7 @@ class Movie(db.Model):
     def serialize(self):
         return {
             'id': self.id,
+            'api_owner': self.api_owner,
             'api_collection': self.api_collection,
             'api_review': self.api_review,
             'api_rate': self.api_rate,

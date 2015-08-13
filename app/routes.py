@@ -31,13 +31,14 @@ def api_key():
 @app.route('/api/movies', methods=['GET'])
 @login_required
 def get_movies():
-    return json.dumps([movie.serialize for movie in models.Movie.query.all()])
+    movies = models.Movie.query.filter_by(api_owner=current_user.username).all()
+    return json.dumps([movie.serialize for movie in movies])
 
 
 @app.route('/api/movies/watched', methods=['GET'])
 @login_required
 def get_watched_movies():
-    movies = models.Movie.query.filter_by(api_watched=True).all()
+    movies = models.Movie.query.filter_by(api_owner=current_user.username, api_watched=True).all()
     return json.dumps([movie.serialize for movie in movies])
 
 
@@ -47,9 +48,11 @@ def add_movie():
     if movie is None:
         movie = models.Movie()
         movie.init(request.json)
+        movie.api_owner = current_user.username
         db.session.add(movie)
     else:
-        movie.__dict__.update(request.json)
+        movie.init(request.json)
+        movie.api_owner = current_user.username
     db.session.commit()
     return jsonify(movie.serialize)
 
