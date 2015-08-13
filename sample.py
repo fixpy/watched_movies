@@ -1,3 +1,4 @@
+import json
 from app import db, models
 
 # movie = models.Movie(name='Heat', director='Michael Mann', year=1995)
@@ -12,10 +13,15 @@ from app import db, models
 
 # movie = models.Movie.query.get(1)
 
-movie1 = models.Movie.query.get(1)
-db.session.delete(movie1)
+# movie1 = models.Movie.query.get(1)
+# db.session.delete(movie1)
 
-movie2 = models.Movie.query.get(2)
-db.session.delete(movie2)
-db.session.commit()
+# movie2 = models.Movie.query.get(2)
+# db.session.delete(movie2)
+# db.session.commit()
 # user = models.User(username='mehran', display_name='Mehran Hatami', password='123456')
+
+# movies = models.Movie.query.filter_by(api_watched=True).all()
+# print(json.dumps([movie.serialize for movie in movies]))
+
+models.Movie.query.delete()

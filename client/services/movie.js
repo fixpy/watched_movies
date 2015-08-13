@@ -12,7 +12,7 @@
 
   function MovieService($http, $q, options, MetacriticAPIService) {
     var selected,
-      watched,
+      reviewed,
       factory;
 
     factory = {
@@ -20,8 +20,8 @@
         return $http
           .get(options.api.movies)
           .then(function (response) {
-            watched = response.data;
-            return watched;
+            reviewed = response.data;
+            return reviewed;
           });
       },
       add: function (newMovie) {
@@ -71,14 +71,14 @@
         var filter = {
           name: name
         };
-        if (collection === 'watched') {
-          if (_.isArray(watched)) {
-            return $q.when(_.find(watched, filter));
+        if (collection === 'reviewed') {
+          if (_.isArray(reviewed)) {
+            return $q.when(_.find(reviewed, filter));
           } else {
             return factory
               .find()
-              .then(function (watched) {
-                return _.find(watched, filter);
+              .then(function (reviewed) {
+                return _.find(reviewed, filter);
               });
           }
         } else {

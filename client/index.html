@@ -34,8 +34,8 @@
   <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
 
     <md-toolbar layout="row" class="md-whiteframe-z1">
-      <!-- <h1>Movies</h1> -->
-      <user-avatar></user-avatar>
+      <h1>{{ul.collectionName}}</h1>
+      <gravatar-image data-gravatar-email="ul.user.email" data-gravatar-size="56" data-gravatar-rating="pg" data-gravatar-default="identicon" data-gravatar-secure="true" data-gravatar-css-class="md-avatar"></gravatar-image>
     </md-toolbar>
     <md-content flex>
       <div ng-show="ul.watchedListIsEmpty()">
@@ -65,7 +65,7 @@
 
     <md-content flex id="content">
       <div class="user-toolbar">
-        <md-fab-toolbar md-open="false" count="3" ng-class="md-right">
+        <md-fab-toolbar md-open="false" count="6" ng-class="md-right">
           <md-fab-trigger class="align-with-text">
             <md-button aria-label="menu" class="md-fab md-primary">
               <md-icon>
@@ -95,6 +95,10 @@
                 <md-icon md-svg-src="styles/svg/last-decade.svg"></md-icon>
                 <md-tooltip md-direction="middle">Last decade</md-tooltip>
               </md-button>
+              <md-button ng-href="/auth/logout" target="_self" aria-label="Logout" class="md-icon-button">
+                <md-icon md-svg-src="styles/svg/logout.svg"></md-icon>
+                <md-tooltip md-direction="middle">Logout</md-tooltip>
+              </md-button>
             </md-fab-actions>
           </md-toolbar>
         </md-fab-toolbar>
@@ -102,8 +106,9 @@
       <div ui-view layout="row" flex></div>
     </md-content>
 
-    <md-button class="md-accent md-fab md-fab-bottom-right" ng-click="ul.showAddDialog($event)">
-      ADD
+    <md-button class="md-accent md-fab md-fab-bottom-right" ng-disabled="{{ ul.movieName === '*' }}" ng-click="ul.showAddDialog($event)">
+      <md-icon md-svg-src="styles/svg/review.svg"></md-icon>
+      <md-tooltip md-direction="middle">Your review</md-tooltip>
     </md-button>
   </div>
 

@@ -43,6 +43,7 @@ class Movie(db.Model):
     api_collection = db.Column(db.String(30), index=False, unique=True)
     api_review = db.Column(db.String(300), index=False, unique=False)
     api_rate = db.Column(db.String(300), index=False, unique=False)
+    api_watched = db.Column(db.Boolean, index=False)
     name = db.Column(db.String(64), index=True, unique=True)
     url = db.Column(db.String(500), index=False, unique=False)
     rlsdate = db.Column(db.String(10), index=False, unique=False)
@@ -64,6 +65,7 @@ class Movie(db.Model):
             'api_collection': self.api_collection,
             'api_review': self.api_review,
             'api_rate': self.api_rate,
+            'api_watched': self.api_watched,
             'name': self.name,
             'rlsdate': self.rlsdate,
             'summary': self.summary,

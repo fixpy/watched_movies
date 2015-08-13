@@ -23,7 +23,8 @@
     if(movie && _.has(movie, 'api_review')){
       this.movieReview = {
         review: movie['api_review'],
-        rate: movie['api_rate']
+        rate: movie['api_rate'],
+        watched: movie['api_watched']
       };
     }
   };

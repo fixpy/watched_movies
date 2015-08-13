@@ -142,3 +142,7 @@ span.name {
   top: -17px;
   left: -14px;
 }
+
+md-dialog.add-watched-movie{
+  min-width: 270px;
+}

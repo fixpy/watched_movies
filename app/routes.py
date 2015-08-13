@@ -28,9 +28,18 @@ def api_key():
         return 'YBo0ebygCLmsh4IWOFt0PD3VO3VPp1l8LwajsnZUYQGT74zTFK'
 
 
-@app.route('/api/v1.0/movies', methods=['GET'])
+@app.route('/api/movies', methods=['GET'])
+@login_required
 def get_movies():
     return json.dumps([movie.serialize for movie in models.Movie.query.all()])
+
+
+@app.route('/api/movies/watched', methods=['GET'])
+@login_required
+def get_watched_movies():
+    movies = models.Movie.query.filter_by(api_watched=True).all()
+    return json.dumps([movie.serialize for movie in movies])
+
 
 @app.route('/api/v1.0/movies', methods=['POST'])
 def post_movies():
@@ -39,6 +48,7 @@ def post_movies():
     db.session.add(movie)
     db.session.commit()
     return jsonify(movie.serialize)
+
 
 @app.route('/api/v1.0/movies/<int:movie_id>', methods=['GET'])
 def get_task(movie_id):

@@ -61,23 +61,24 @@
       parent: angular.element(document.body),
       targetEvent: e,
     })
-      .then(function (movieReview) {
-        vm.addWatchedMovie(movieReview);
+      .then(function (review) {
+        vm.addWatchedMovie(review);
       }, function () {
         console.log('You cancelled the dialog.');
       });
   };
 
-  MovieCtrl.prototype.addWatchedMovie = function (movieReview) {
+  MovieCtrl.prototype.addWatchedMovie = function (review) {
     var vm = this,
-      newMovie = _.clone(vm.MovieService.selected());
+      movieReview = _.clone(vm.MovieService.selected());
 
-    newMovie.api_collection = vm.collection;
-    newMovie.api_review = movieReview.review;
-    newMovie.api_rate = movieReview.rate;
+    movieReview.api_collection = vm.collection;
+    movieReview.api_review = review.review;
+    movieReview.api_rate = review.rate;
+    movieReview.api_watched = review.watched;
 
     return vm
       .MovieService
-      .add(newMovie);
+      .add(movieReview);
   };
 }());
