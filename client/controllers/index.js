@@ -80,7 +80,7 @@
       vm.reviewEnabled = (name !== '*');
     });
 
-    if ($location.path() === '/') {
+    if ($location.path() === '' || $location.path() === '/') {
       vm.collection = collection;
       vm._movieName = '*';
       vm.setTitle();
@@ -111,6 +111,7 @@
       })
       .catch(function (err) {
         console.error('An error happened while loading user info:', err);
+        location.assign('/auth/logout');
       });
   };
 

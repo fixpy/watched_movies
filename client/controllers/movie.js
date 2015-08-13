@@ -111,6 +111,7 @@
       .MovieService[review.action](movieReview)
       .then(function () {
         vm.showMessage(vm.actions[review.action]);
+        vm.MovieService.clearCache();
         if (vm.MovieService.isLocal(vm.collection)) {
           vm.$timeout(function () {
             // location.assign('/#/' + vm.collection + '/*');

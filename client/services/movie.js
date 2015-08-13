@@ -17,6 +17,12 @@
       factory;
 
     factory = {
+      clearCache: function () {
+        cache = {
+          reviewed: null,
+          watched: null
+        };
+      },
       isLocal: function (collectionName) {
         return _(cache)
           .keys()
