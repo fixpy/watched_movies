@@ -1,2 +1,2 @@
 # Watched Movies
-A library of watched movies
+A library to review your watched movies

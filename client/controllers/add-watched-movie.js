@@ -1,6 +1,5 @@
 (function () {
   'use strict';
-
   /**
    * @ngdoc function
    * @name watchedMovies.controller:
@@ -8,36 +7,55 @@
    * # AddWatchedMovieCtrl
    * Controller of the watchedMovies
    */
-  angular
-    .module('watchedMovies')
-    .controller('AddWatchedMovieCtrl', ['$rootScope', '$mdDialog', 'MovieService', AddWatchedMovieCtrl]);
-
   function AddWatchedMovieCtrl($rootScope, $mdDialog, MovieService) {
-    this.$rootScope = $rootScope;
-    this.$mdDialog = $mdDialog;
-
-    this.load(MovieService.selected());
+    var vm = this;
+    vm.$rootScope = $rootScope;
+    vm.$mdDialog = $mdDialog;
+    vm.load(MovieService.selected());
   }
 
   AddWatchedMovieCtrl.prototype.load = function (movie) {
-    if(movie && _.has(movie, 'api_review')){
-      this.movieReview = {
-        review: movie['api_review'],
-        rate: movie['api_rate'],
-        watched: movie['api_watched']
+    var vm = this;
+    if (movie && _.has(movie, 'api_review')) {
+      vm.movieReview = {
+        review: movie.api_review,
+        rate: movie.api_rate,
+        watched: movie.api_watched,
+        action: 'update'
       };
     }
   };
 
+  AddWatchedMovieCtrl.prototype.newReview = function () {
+    var vm = this;
+    return (!_.isObject(vm.movieReview) || (vm.movieReview.action !== 'update'));
+  };
+
   AddWatchedMovieCtrl.prototype.hide = function () {
-    this.$mdDialog.hide();
+    var vm = this;
+    vm.$mdDialog.hide();
   };
 
   AddWatchedMovieCtrl.prototype.cancel = function () {
-    this.$mdDialog.cancel();
+    var vm = this;
+    vm.$mdDialog.cancel();
   };
 
-  AddWatchedMovieCtrl.prototype.ok = function () {
-    this.$mdDialog.hide(this.movieReview);
+  AddWatchedMovieCtrl.prototype.delete = function () {
+    var vm = this;
+    vm.movieReview.action = 'delete';
+    vm.$mdDialog.hide(vm.movieReview);
   };
+
+  AddWatchedMovieCtrl.prototype.add = function () {
+    var vm = this;
+    if (vm.movieReview.action !== 'update') {
+      vm.movieReview.action = 'add';
+    }
+    vm.$mdDialog.hide(vm.movieReview);
+  };
+
+  angular
+    .module('watchedMovies')
+    .controller('AddWatchedMovieCtrl', ['$rootScope', '$mdDialog', 'MovieService', AddWatchedMovieCtrl]);
 }());

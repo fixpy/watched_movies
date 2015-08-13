@@ -17,8 +17,12 @@ body {
 </style>
 <div class="container">
   <div class="signin-container">
-  <h2 class="form-signin-heading">Please sign in</h2>
-  {{ wtf.quick_form(form) }}
+    <h2 class="form-signin-heading">Please sign in</h2>
+    {{ wtf.quick_form(form) }}
+    <br />
+    <button type="button" class="btn btn-default">
+      <a href="/auth/register" target="_self">Create a new account</a>
+    </button>
   </div>
 </div>
 {% endblock %}

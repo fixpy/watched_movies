@@ -9,7 +9,7 @@ from app import db
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated():
-        return redirect(request.args.get('next') or '/')
+        return redirect('/')
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -23,6 +23,9 @@ def login():
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated():
+        return redirect('/')
+
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email=form.email.data, username=form.username.data,

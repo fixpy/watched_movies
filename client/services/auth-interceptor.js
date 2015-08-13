@@ -7,9 +7,6 @@
    * # AuthInterceptor
    * Factory in the watchedMovies module.
    */
-  angular.module('watchedMovies')
-    .factory('AuthInterceptor', ['$q', AuthInterceptor]);
-
   function AuthInterceptor($q) {
     return {
       response: function (response) {
@@ -20,4 +17,7 @@
       }
     };
   }
+
+  angular.module('watchedMovies')
+    .factory('AuthInterceptor', ['$q', AuthInterceptor]);
 }());

@@ -19,6 +19,10 @@ body {
   <div class="register-container">
   <h2 class="form-signin-heading">Register a new account:</h2>
   {{ wtf.quick_form(form) }}
+  <br />
+  <button type="button" class="btn btn-default">
+    <a href="/auth/login" target="_self">Already have an account</a>
+  </button>
   </div>
 </div>
 {% endblock %}

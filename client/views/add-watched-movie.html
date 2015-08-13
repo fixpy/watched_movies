@@ -11,8 +11,8 @@
     </md-toolbar>
     <md-dialog-content>
       <div>
-        <md-checkbox ng-model="vm.movieReview.watched" aria-label="Checkbox 2" ng-true-value="'yup'" ng-false-value="'nope'" class="md-warn md-align-top-left">
-          Have you watched it?({{ vm.movieReview.watched || 'nope' }})
+        <md-checkbox ng-model="vm.movieReview.watched" aria-label="Checkbox 2" class="md-warn md-align-top-left">
+          Have you watched it?({{ !!vm.movieReview.watched ? 'yup' : 'nope' }})
         </md-checkbox>
 
         <md-input-container flex>
@@ -30,8 +30,11 @@
       <md-button ng-click="vm.cancel()" class="md-primary">
         Cancel
       </md-button>
-      <md-button ng-click="vm.ok()" class="md-primary">
-        Ok
+      <md-button ng-click="vm.add()" class="md-primary">
+        {{vm.newReview() ? 'Add' : 'Update'}}
+      </md-button>
+      <md-button ng-click="vm.delete()" ng-if="!vm.newReview()" class="md-primary">
+        Delete
       </md-button>
     </div>
   </form>

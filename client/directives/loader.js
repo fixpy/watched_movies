@@ -2,20 +2,17 @@
   'use strict';
   /**
    * @ngdoc service
-   * @name watchedMovies.CompanyService
+   * @name watchedMovies.loader
    * @description
-   * # CompanyService
+   * # loader
    * Factory in the watchedMovies module.
    */
-  angular.module('watchedMovies')
-    .directive('loader', ['$timeout', '$rootScope', loader]);
-
   function loader($timeout, $rootScope) {
     return {
       restrict: 'EA',
       replace: true,
       scope: {},
-      link: function (scope, element) {
+      link: function (scope) {
         scope.visible = false;
         $rootScope.$on('loader:update', function (event, info) {
           if (info.active === 0) {
@@ -28,4 +25,7 @@
       templateUrl: 'views/loader.html'
     };
   }
+
+  angular.module('watchedMovies')
+    .directive('loader', ['$timeout', '$rootScope', loader]);
 }());

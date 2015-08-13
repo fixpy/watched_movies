@@ -27,8 +27,8 @@ class User(UserMixin, db.Model):
     @property
     def serialize(self):
         return {
-            'isAuthenticated': True,
             'username': self.username,
+            'display_name': self.display_name,
             'email': self.email
         }
 
@@ -75,3 +75,33 @@ class Movie(db.Model):
             'avguserscore': self.avguserscore,
             'runtime': self.runtime
         }
+
+    def init(self, dict):
+        if 'api_collection' in dict:
+            self.api_collection = dict['api_collection']
+        if 'api_review' in dict:
+            self.api_review = dict['api_review']
+        if 'api_rate' in dict:
+            self.api_rate = dict['api_rate']
+        if 'api_watched' in dict:
+            self.api_watched = dict['api_watched']
+        if 'name' in dict:
+            self.name = dict['name']
+        if 'url' in dict:
+            self.url = dict['url']
+        if 'rlsdate' in dict:
+            self.rlsdate = dict['rlsdate']
+        if 'score' in dict:
+            self.score = dict['score']
+        if 'summary' in dict:
+            self.summary = dict['summary']
+        if 'rating' in dict:
+            self.rating = dict['rating']
+        if 'cast' in dict:
+            self.cast = dict['cast']
+        if 'genre' in dict:
+            self.genre = dict['genre']
+        if 'avguserscore' in dict:
+            self.avguserscore = dict['avguserscore']
+        if 'runtime' in dict:
+            self.runtime = dict['runtime']

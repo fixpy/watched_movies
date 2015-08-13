@@ -20,7 +20,8 @@
     },
     api: {
       user: '/user',
-      movies: '/api/v1.0/movies'
+      movies: '/api/movies',
+      watched: '/api/movies/watched'
     },
     genres: [
       'All', 'Adventure', 'Drama', 'Fantasy', 'Comedy', 'Animation',

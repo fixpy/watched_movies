@@ -7,9 +7,6 @@
    * # HttpInterceptor
    * Factory in the watchedMovies module.
    */
-  angular.module('watchedMovies')
-    .factory('HttpInterceptor', ['$injector', '$q', '$rootScope', HttpInterceptor]);
-
   function HttpInterceptor($injector, $q, $rootScope) {
     window.$injector = $injector;
     var active = 0,
@@ -48,4 +45,7 @@
       }
     };
   }
+
+  angular.module('watchedMovies')
+    .factory('HttpInterceptor', ['$injector', '$q', '$rootScope', HttpInterceptor]);
 }());

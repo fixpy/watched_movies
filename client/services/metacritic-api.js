@@ -7,11 +7,7 @@
    * # MetacriticAPIService
    * Factory in the watchedMovies module.
    */
-  angular.module('watchedMovies')
-    .factory('MetacriticAPIService', ['$http', '$q', 'options', MetacriticAPIService]);
-
   function MetacriticAPIService($http, $q, options) {
-    window.$http = $http;
     var cache = {
         lastDecade: null,
         lastYear: null,
@@ -23,11 +19,6 @@
 
     factory = {
       validFindKeys: ['max_pages', 'retry', 'title', 'year_from', 'year_to'],
-      isMetacritic: function (collectionName) {
-        return _(cache)
-          .keys()
-          .contains(collectionName);
-      },
       key: function () {
         if (key) {
           return $q.when(key);
@@ -147,26 +138,11 @@
           cache.lastDecade = factory.lastYears(10);
         }
         return cache.lastDecade;
-      },
-      findCollection: function (collectionName) {
-        if (_.isFunction(factory[collectionName])) {
-          return factory[collectionName]();
-        }
-        return $q.reject('INVALID_COLLECTION');
-      },
-      findMovie: function (collectionName, movie) {
-        return factory
-          .findCollection(collectionName)
-          .then(function (movies) {
-            return _.find(movies, movie);
-          });
-      },
-      findMovieByName: function (collectionName, movieName) {
-        return factory.findMovie(collectionName, {
-          name: movieName
-        });
       }
     };
     return factory;
   }
+
+  angular.module('watchedMovies')
+    .factory('MetacriticAPIService', ['$http', '$q', 'options', MetacriticAPIService]);
 }());

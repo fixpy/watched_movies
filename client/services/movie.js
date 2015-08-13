@@ -7,26 +7,68 @@
    * # MovieService
    * Factory in the watchedMovies module.
    */
-  angular.module('watchedMovies')
-    .factory('MovieService', ['$http', '$q', 'options', 'MetacriticAPIService', MovieService]);
-
   function MovieService($http, $q, options, MetacriticAPIService) {
     var selected,
-      reviewed,
+      dialogIsOpen = false,
+      cache = {
+        reviewed: null,
+        watched: null
+      },
       factory;
 
     factory = {
-      find: function () {
+      isLocal: function (collectionName) {
+        return _(cache)
+          .keys()
+          .contains(collectionName);
+      },
+      find: function (collection) {
+        if (factory.isLocal(collection) && _.isArray(cache[collection])) {
+          return $q.when(cache[collection]);
+        }
+        return factory.findCollection(collection);
+      },
+      findCollection: function (name) {
+        var factoryObject = factory.isLocal(name) ? factory : MetacriticAPIService;
+
+        if (_.isFunction(factoryObject[name])) {
+          return factoryObject[name]();
+        }
+        return $q.reject('INVALID_COLLECTION');
+      },
+      reviewed: function () {
         return $http
           .get(options.api.movies)
           .then(function (response) {
-            reviewed = response.data;
-            return reviewed;
+            cache.reviewed = response.data;
+            return cache.reviewed;
+          });
+      },
+      watched: function () {
+        return $http
+          .get(options.api.watched)
+          .then(function (response) {
+            cache.watched = response.data;
+            return cache.watched;
           });
       },
       add: function (newMovie) {
         return $http
           .post(options.api.movies, newMovie)
+          .then(function (response) {
+            return response.data;
+          });
+      },
+      update: function (movie) {
+        return $http
+          .put(options.api.movies, movie)
+          .then(function (response) {
+            return response.data;
+          });
+      },
+      delete: function (movie) {
+        return $http
+          .delete(options.api.movies + '/' + movie.name)
           .then(function (response) {
             return response.data;
           });
@@ -67,26 +109,30 @@
         }
         return selected;
       },
-      findMovieByName: function (collection, name) {
-        var filter = {
-          name: name
-        };
-        if (collection === 'reviewed') {
-          if (_.isArray(reviewed)) {
-            return $q.when(_.find(reviewed, filter));
-          } else {
-            return factory
-              .find()
-              .then(function (reviewed) {
-                return _.find(reviewed, filter);
-              });
-          }
-        } else {
-          return MetacriticAPIService.findMovie(collection, filter);
+      dialogIsOpen: function (isOpen) {
+        if (!_.isUndefined(isOpen)) {
+          dialogIsOpen = isOpen;
         }
+        return dialogIsOpen;
+      },
+      findMovie: function (collection, movie) {
+        return factory
+          .find(collection)
+          .then(function (movies) {
+            return _.find(movies, movie);
+          });
+      },
+      findMovieByName: function (collection, name) {
+        return factory
+          .findMovie(collection, {
+            name: name
+          });
       }
     };
 
     return factory;
   }
+
+  angular.module('watchedMovies')
+    .factory('MovieService', ['$http', '$q', 'options', 'MetacriticAPIService', MovieService]);
 }());

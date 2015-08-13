@@ -41,16 +41,35 @@ def get_watched_movies():
     return json.dumps([movie.serialize for movie in movies])
 
 
-@app.route('/api/v1.0/movies', methods=['POST'])
-def post_movies():
-    movie = models.Movie()
-    movie.__dict__.update(request.json)
-    db.session.add(movie)
+@app.route('/api/movies', methods=['POST'])
+def add_movie():
+    movie = models.Movie.query.filter_by(name=request.json['name']).first()
+    if movie is None:
+        movie = models.Movie()
+        movie.init(request.json)
+        db.session.add(movie)
+    else:
+        movie.__dict__.update(request.json)
     db.session.commit()
     return jsonify(movie.serialize)
 
 
-@app.route('/api/v1.0/movies/<int:movie_id>', methods=['GET'])
+@app.route('/api/movies', methods=['PUT'])
+def update_movie():
+    movie = models.Movie.query.filter_by(name=request.json['name']).first()
+    movie.init(request.json)
+    db.session.commit()
+    return jsonify(movie.serialize)
+
+
+@app.route('/api/movies/<string:movie_name>', methods=['DELETE'])
+def delete_movie(movie_name):
+    movie = models.Movie.query.filter_by(name=movie_name).first()
+    db.session.delete(movie)
+    db.session.commit()
+    return jsonify({'deleted': True})
+
+@app.route('/api/movies/<int:movie_id>', methods=['GET'])
 def get_task(movie_id):
     movie = models.Movie.query.get(movie_id)
     if movie is None:

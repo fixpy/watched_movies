@@ -1,13 +1,24 @@
-<div layout="row" ng-controller="MovieCtrl as ul" flex>
-  <md-progress-circular ng-if="ul.loading" class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-  <div ng-if="ul.movie" layout="column" flex>
-    <h1>{{ul.movie.name}}</h1>
-    <h2>Rating: {{ul.movie.rating}}, Score: {{ul.movie.score}}</h2>
-    <h3>{{ul.movie.genre}}</h3>
-    <p>Cast: {{ul.movie.cast}}</p>
+<div layout="row" class="movie-wrapper" ng-controller="MovieCtrl as vm" flex>
+  <md-progress-circular ng-if="vm.loading" class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+  <div class="action-message" ng-if="vm.message" ng-bind="vm.message"></div>
+  <div ng-if="vm.movie" layout="column" flex>
+    <h1 ng-bind="vm.movie.name"></h1>
+    <h2>Rating:
+      <span ng-bind="vm.movie.rating">...</span>, Score:
+      <span ng-bind="vm.movie.score">...</span>
+    </h2>
+    <h3 ng-bind="vm.movie.genre"></h3>
+    <p>Cast:
+      <span ng-bind="vm.movie.cast"></span>
+    </p>
     <p>
       <strong>Summary:</strong>
-      <br />{{ul.movie.summary}}</p>
-    <!-- <iframe ng-src="{{ul.movieUrl}}" style="width:100%;height:500px;"></iframe> -->
+      <br />
+      <span ng-bind="vm.movie.summary"></span>
+    </p>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    <md-button class="md-raised" ng-click="vm.toggleMoviePage()">Open the movie page</md-button>
+    </section>
+    <iframe ng-src="{{vm.movieUrl}}" ng-if="vm.movieUrl" style="width:100%;height:500px;"></iframe>
   </div>
 </div>

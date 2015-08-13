@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="styles/app.css">
 </head>
 
-<body ng-app="watchedMovies" ng-controller="IndexCtrl as ul" layout="row">
+<body ng-app="watchedMovies" ng-controller="IndexCtrl as ctrl" layout="row">
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -32,23 +32,21 @@
 
   <loader></loader>
   <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-
     <md-toolbar layout="row" class="md-whiteframe-z1">
-      <h1>{{ul.collectionName}}</h1>
-      <gravatar-image data-gravatar-email="ul.user.email" data-gravatar-size="56" data-gravatar-rating="pg" data-gravatar-default="identicon" data-gravatar-secure="true" data-gravatar-css-class="md-avatar"></gravatar-image>
+      <h3 ng-bind="ctrl.title"></h3>
     </md-toolbar>
     <md-content flex>
-      <div ng-show="ul.watchedListIsEmpty()">
-        <p>You watched list is empty!</p>
+      <div ng-show="ctrl.listIsEmpty()">
+        <p>Your list is empty!</p>
       </div>
-      <div layout="row" ng-if="!ul.movies" layout-sm="column" layout-align="space-around">
+      <div layout="row" ng-if="!ctrl.movies" layout-sm="column" layout-align="space-around">
         <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
       </div>
       <md-list>
-        <md-list-item ng-repeat="it in ul.movies">
-          <md-button aria-label="{{it.name}}" ng-class="{'selected' : it === ul.selected }">
-            <md-icon md-svg-src="{{ul.getIcon(it)}}"></md-icon>
-            <a href="#/{{ul.collection}}/{{it.name}}" target="_self" ng-bind="it.name"></a>
+        <md-list-item ng-repeat="it in ctrl.movies">
+          <md-button aria-label="{{it.name}}" ng-class="{'selected' : it === ctrl.selected }">
+            <md-icon md-svg-src="{{ctrl.getIcon(it)}}"></md-icon>
+            <a href="#/{{ctrl.collection}}/{{it.name}}" target="_self" ng-bind="it.name"></a>
           </md-button>
         </md-list-item>
       </md-list>
@@ -57,10 +55,10 @@
   <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
 
     <md-toolbar layout="row" class="md-whiteframe-z1">
-      <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show Movie List">
+      <md-button class="menu" hide-gt-sm ng-click="ctrl.toggleList()" aria-label="Show Movie List">
         <md-icon md-svg-icon="menu"></md-icon>
       </md-button>
-      <h1>Watched Movies</h1>
+      <h3>Watched Movies(<span ng-bind="ctrl.user.display_name || ctrl.user.username">...</span>)</h3>
     </md-toolbar>
 
     <md-content flex id="content">
@@ -69,15 +67,19 @@
           <md-fab-trigger class="align-with-text">
             <md-button aria-label="menu" class="md-fab md-primary">
               <md-icon>
-                <gravatar-image data-gravatar-email="ul.user.email" data-gravatar-size="56" data-gravatar-rating="pg" data-gravatar-default="identicon" data-gravatar-secure="true" data-gravatar-css-class="md-avatar"></gravatar-image>
+                <gravatar-image data-gravatar-email="ctrl.user.email" data-gravatar-size="56" data-gravatar-rating="pg" data-gravatar-default="identicon" data-gravatar-secure="true" data-gravatar-css-class="md-avatar"></gravatar-image>
               </md-icon>
             </md-button>
           </md-fab-trigger>
           <md-toolbar>
             <md-fab-actions class="md-toolbar-tools">
-              <md-button ng-href="#/watched/*" target="_self" aria-label="My watched videos" class="md-icon-button">
+              <md-button ng-href="#/watched/*" target="_self" aria-label="My watched movies" class="md-icon-button">
                 <md-icon md-svg-src="styles/svg/watched.svg"></md-icon>
-                <md-tooltip md-direction="middle">My watched videos</md-tooltip>
+                <md-tooltip md-direction="middle">My watched movies</md-tooltip>
+              </md-button>
+              <md-button ng-href="#/reviewed/*" target="_self" aria-label="My review list" class="md-icon-button">
+                <md-icon md-svg-src="styles/svg/review.svg"></md-icon>
+                <md-tooltip md-direction="middle">My review list</md-tooltip>
               </md-button>
               <md-button ng-href="#/newReleases/*" target="_self" aria-label="New releases" class="md-icon-button">
                 <md-icon md-svg-src="styles/svg/new-releases.svg"></md-icon>
@@ -106,7 +108,7 @@
       <div ui-view layout="row" flex></div>
     </md-content>
 
-    <md-button class="md-accent md-fab md-fab-bottom-right" ng-disabled="{{ ul.movieName === '*' }}" ng-click="ul.showAddDialog($event)">
+    <md-button class="md-accent md-fab md-fab-bottom-right" ng-disabled="!ctrl.reviewEnabled" ng-click="ctrl.showReviewDialog($event)">
       <md-icon md-svg-src="styles/svg/review.svg"></md-icon>
       <md-tooltip md-direction="middle">Your review</md-tooltip>
     </md-button>

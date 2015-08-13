@@ -1,6 +1,5 @@
 (function () {
   'use strict';
-
   /**
    * @ngdoc function
    * @name watchedMovies.controller:IndexCtrl
@@ -8,15 +7,8 @@
    * # IndexCtrl
    * Controller of the watchedMovies
    */
-  angular
-    .module('watchedMovies')
-    .controller('IndexCtrl', ['$rootScope', '$location', '$q', 'MetacriticAPIService', '$mdBottomSheet', '$mdSidenav', 'MovieService', 'AuthService', IndexCtrl]);
-
   function IndexCtrl($rootScope, $location, $q, MetacriticAPIService, $mdBottomSheet, $mdSidenav, MovieService, AuthService) {
     var vm = this;
-    window.ul = this;
-    window.$location = $location;
-
     //dependencies
     vm.$mdBottomSheet = $mdBottomSheet;
     vm.$mdSidenav = $mdSidenav;
@@ -27,48 +19,89 @@
     vm.AuthService = AuthService;
 
     //properties
-    var collection = 'lastYear';
+    var collection = 'lastYear',
+      collections = {
+        lastDecade: 'The Best Of The Decade',
+        lastYear: 'The Best Of The Year',
+        comingSoon: 'New Movies Coming Soon',
+        newReleases: 'New Movie Releases',
+        reviewed: 'My Review List',
+        watched: 'My Watched Movies'
+      };
+    vm.setTitle = function () {
+      if (vm.collection) {
+        vm.title = collections[vm.collection];
+      }
+    };
+
     vm.selected = null;
     vm.loaderVisible = false;
     vm.collection = null;
+    vm.title = '';
+    vm.reviewEnabled = false;
 
-    vm.showAddDialog = function (event) {
-      $rootScope.$broadcast('movie:add', event);
+    vm.showReviewDialog = function (event) {
+      $rootScope.$broadcast('movie:review', event);
     };
 
     vm.setMovies = function (movies) {
       vm.movies = movies;
-      if (vm.movieName === '*' && _.isObject(ul.movies[0]) && ul.movies[0].name) {
-        location.assign('/#/' + vm.collection + '/' + ul.movies[0].name);
+      if (vm._movieName === '*' && _.isObject(vm.movies[0]) && vm.movies[0].name) {
+        location.assign('/#/' + vm.collection + '/' + vm.movies[0].name);
       }
     };
 
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    vm.loadCollection = function (collectionName, name) {
+      vm.collection = collectionName;
+      vm._movieName = name || '*';
+      vm.setTitle();
+      vm.load();
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
       if (toParams.collection && toParams.name && (vm.collection !== toParams.collection)) {
-        vm.collection = toParams.collection || collection;
-        vm.movieName = toParams.name;
-        vm.load();
+        vm.loadCollection((toParams.collection || collection), toParams.name);
       }
+    });
+
+    $rootScope.$on('movie:update', function (event, collectionName) {
+      vm.loadCollection(collectionName);
+    });
+
+    vm.movieName = function () {
+      var movie = MovieService.selected();
+      if (_.isObject(movie)) {
+        return movie.name;
+      }
+      return '*';
+    };
+
+    $rootScope.$watch(vm.movieName, function (name) {
+      vm.reviewEnabled = (name !== '*');
     });
 
     if ($location.path() === '/') {
       vm.collection = collection;
-      vm.movieName = '*';
+      vm._movieName = '*';
+      vm.setTitle();
       vm.load();
     }
 
     vm.loadUser();
   }
 
-  IndexCtrl.prototype.watchedListIsEmpty = function () {
+  IndexCtrl.prototype.listIsEmpty = function () {
     var vm = this;
+    return (vm.MovieService.isLocal(vm.collection) && _.isArray(vm.movies) && !vm.movies.length);
+  };
 
-    return (vm.collection === 'watched' && _.isArray(vm.movies) && !vm.movies.length);
+  IndexCtrl.prototype.userDisplayName = function () {
+    var vm = this;
+    return (_.isObject(vm.user) && (vm.user.display_name || vm.user.username));
   };
 
   IndexCtrl.prototype.loadUser = function () {
     var vm = this;
-
     vm.user = {};
     vm
       .AuthService
@@ -83,40 +116,30 @@
 
   IndexCtrl.prototype.load = function () {
     var vm = this;
-
     vm.movies = null;
-
-    if (vm.MetacriticAPIService.isMetacritic(vm.collection)) {
-      vm
-        .MetacriticAPIService
-        .findCollection(vm.collection)
-        .then(vm.setMovies)
-        .catch(function (err) {
-          console.error('An error happened while loading movies:', err);
-        });
-    } else if (vm.collection === 'watched') {
-      vm.loadWatchedMovies();
-    }
-  };
-
-  IndexCtrl.prototype.loadWatchedMovies = function () {
-    var vm = this;
-
-    vm.MovieService
-      .find()
-      .then(vm.setMovies);
+    vm
+      .MovieService
+      .find(vm.collection)
+      .then(vm.setMovies)
+      .catch(function (err) {
+        console.error('An error happened while loading movies:', err);
+      });
   };
 
   IndexCtrl.prototype.getIcon = function (movie) {
-    return this.MovieService.getIcon(movie);
+    var vm = this;
+    return vm.MovieService.getIcon(movie);
   };
 
   IndexCtrl.prototype.toggleList = function () {
     var vm = this,
       pending = vm.$mdBottomSheet.hide() || vm.$q.when(true);
-
     pending.then(function () {
       vm.$mdSidenav('left').toggle();
     });
   };
+
+  angular
+    .module('watchedMovies')
+    .controller('IndexCtrl', ['$rootScope', '$location', '$q', 'MetacriticAPIService', '$mdBottomSheet', '$mdSidenav', 'MovieService', 'AuthService', IndexCtrl]);
 }());

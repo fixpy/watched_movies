@@ -14,7 +14,7 @@ html, body {
   margin: 16px;
   width: 36px;
 }
-md-toolbar h1 {
+md-toolbar h3 {
   margin: auto;
 }
 /* Sidenav area */
@@ -40,6 +40,7 @@ md-sidenav md-list {
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5px;
+  overflow-y: auto;
 }
 #content .md-button.contact {
   background-color: transparent;
@@ -82,9 +83,9 @@ md-button.menuBtn > md-icon {
 }
 /* Typography support coming in 0.8.0 */
 
-md-toolbar h1 {
-  font-size: 1.250em;
-  font-weight: 400;
+md-toolbar h3 {
+  font-size: 0.900em;
+  font-weight: 500;
 }
 .avatar {
   position: relative;
@@ -121,20 +122,17 @@ span.name {
   border-radius: 50%;
   cursor: pointer;
 }
-
-#content md-fab-toolbar .md-fab-toolbar-wrapper{
+#content md-fab-toolbar .md-fab-toolbar-wrapper {
   max-height: 70px !important;
 }
-
-#content iframe{
+#content iframe {
   padding: 0px;
   margin: 0px;
   border-style: none;
   border-width: 0px;
 }
-
-.user-toolbar .md-avatar{
-    -webkit-border-radius: 50%;
+.user-toolbar .md-avatar {
+  -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
   cursor: pointer;
@@ -142,7 +140,18 @@ span.name {
   top: -17px;
   left: -14px;
 }
-
-md-dialog.add-watched-movie{
-  min-width: 270px;
+.movie-wrapper {
+  position: relative;
+}
+.action-message {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  color: blue;
+}
+.action-message {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  color: blue;
 }
