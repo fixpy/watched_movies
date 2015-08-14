@@ -41,10 +41,11 @@ def load_user(user_id):
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     api_owner = db.Column(db.String(30), index=False, unique=False)
-    api_collection = db.Column(db.String(30), index=False, unique=True)
+    api_collection = db.Column(db.String(30), index=False, unique=False)
     api_review = db.Column(db.String(300), index=False, unique=False)
     api_rate = db.Column(db.String(300), index=False, unique=False)
     api_watched = db.Column(db.Boolean, index=False)
+    api_last_review = db.Column(db.String(10), index=False, unique=False)
     name = db.Column(db.String(64), index=True, unique=True)
     url = db.Column(db.String(500), index=False, unique=False)
     rlsdate = db.Column(db.String(10), index=False, unique=False)
@@ -68,6 +69,7 @@ class Movie(db.Model):
             'api_review': self.api_review,
             'api_rate': self.api_rate,
             'api_watched': self.api_watched,
+            'api_last_review': self.api_last_review,
             'name': self.name,
             'rlsdate': self.rlsdate,
             'summary': self.summary,
@@ -87,6 +89,8 @@ class Movie(db.Model):
             self.api_rate = dict['api_rate']
         if 'api_watched' in dict:
             self.api_watched = dict['api_watched']
+        if 'api_last_review' in dict:
+            self.api_last_review = dict['api_last_review']
         if 'name' in dict:
             self.name = dict['name']
         if 'url' in dict:

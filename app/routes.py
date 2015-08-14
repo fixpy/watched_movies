@@ -22,23 +22,31 @@ def user():
 
 @app.route('/metacritic/mashape_key')
 def api_key():
+    filename = os.path.abspath(os.path.dirname(__file__)) + '/../secrets.json'
+    if not os.path.isfile(filename):
+        return '0000000000000000000000000000'
+
+    env_type = 'prod'
     if env == 'development':
-        return 'J6nENosAcVmshJor9sHzgZK57eytp1b7L1OjsnGyeGCxTUJmxt'
-    else:
-        return 'YBo0ebygCLmsh4IWOFt0PD3VO3VPp1l8LwajsnZUYQGT74zTFK'
+        env_type = 'dev'
+    with open('secrets.json') as secrets:
+        data = json.load(secrets)
+        return data['mashape'][env_type]
 
 
 @app.route('/api/movies', methods=['GET'])
 @login_required
 def get_movies():
-    movies = models.Movie.query.filter_by(api_owner=current_user.username).all()
+    movies = models.Movie.query.filter_by(
+        api_owner=current_user.username).all()
     return json.dumps([movie.serialize for movie in movies])
 
 
 @app.route('/api/movies/watched', methods=['GET'])
 @login_required
 def get_watched_movies():
-    movies = models.Movie.query.filter_by(api_owner=current_user.username, api_watched=True).all()
+    movies = models.Movie.query.filter_by(
+        api_owner=current_user.username, api_watched=True).all()
     return json.dumps([movie.serialize for movie in movies])
 
 
@@ -60,7 +68,15 @@ def add_movie():
 @app.route('/api/movies', methods=['PUT'])
 def update_movie():
     movie = models.Movie.query.filter_by(name=request.json['name']).first()
-    movie.init(request.json)
+
+    if movie is None:
+        movie = models.Movie()
+        movie.init(request.json)
+        movie.api_owner = current_user.username
+        db.session.add(movie)
+    else:
+        movie.init(request.json)
+
     db.session.commit()
     return jsonify(movie.serialize)
 
@@ -71,6 +87,7 @@ def delete_movie(movie_name):
     db.session.delete(movie)
     db.session.commit()
     return jsonify({'deleted': True})
+
 
 @app.route('/api/movies/<int:movie_id>', methods=['GET'])
 def get_task(movie_id):

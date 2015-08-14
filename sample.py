@@ -1,5 +1,5 @@
-import json
-from app import db, models
+import json, os
+# from app import db, models
 
 # movie = models.Movie(name='Heat', director='Michael Mann', year=1995)
 # db.session.add(movie)
@@ -30,9 +30,12 @@ from app import db, models
 # user.display_name = 'Mehran Hatami'
 # db.session.commit()
 
-movie = models.Movie.query.filter_by(api_owner=None).first()
-movie.api_owner = 'mehran'
-db.session.commit()
+# movie = models.Movie.query.filter_by(api_owner=None).first()
+# movie.api_owner = 'mehran'
+# db.session.commit()
 
-data = models.Movie.query.filter_by(api_owner=None).all()
-print(json.dumps([movie.serialize for movie in data]))
+# data = models.Movie.query.filter_by(api_owner=None).all()
+# print(json.dumps([movie.serialize for movie in data]))
+
+# models.User.query.delete()
+# db.session.commit()
