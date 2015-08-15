@@ -40,10 +40,6 @@ simplejson==3.6.5
 SQLAlchemy==1.0.8
 sqlalchemy-migrate==0.9.7
 sqlparse==0.1.16
-urlgrabber==3.9.1
 virtualenv==13.1.0
-websockify==0.6.0
 Werkzeug==0.10.4
-Whoosh==2.7.0
-wstools==0.4.3
 WTForms==2.0.2
