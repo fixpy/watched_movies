@@ -7,7 +7,11 @@ from flask.ext.login import LoginManager
 from flask_bootstrap import Bootstrap
 
 env = os.environ.get('ENV', 'development')
-public_folder = '../client'
+if env=='production':
+  public_folder = '../public'
+else:
+  public_folder = '../client'
+
 mimetypes.add_type('image/svg+xml', '.svg')
 mimetypes.add_type('text/html ', '.html')
 

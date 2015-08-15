@@ -13,6 +13,10 @@ env = os.environ.get('ENV', 'development')
 def index():
     return app.send_static_file('index.html')
 
+@app.route('/bower_components/<path:path>')
+def public_folder(path):
+  basedir = os.path.abspath(os.path.dirname(__file__))
+  return send_from_directory(basedir + '/../bower_components', path)
 
 @app.route('/user')
 @login_required
