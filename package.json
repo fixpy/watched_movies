@@ -1,6 +1,6 @@
 {
   "name": "watched_movies",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "An app to list user's watched movies",
   "engines": {
     "node": "0.10.x",
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "./node_modules/bower/bin/bower install && grunt build"
+    "postinstall": "cd client && ./node_modules/bower/bin/bower install && ./node_modules/bower/bin/bower build && cd .."
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,3 @@
 cd client
-bower install
-cd ..
-python run.py
+npm install
+node_modules/.bin/bower install
